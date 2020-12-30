@@ -1,8 +1,21 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { GlobalContext } from './../context/GlobalState'
 
 export default function AddTransaction() {
+    const { addTransaction, transactions } = useContext(GlobalContext)
     const [text, setText] = useState('');
     const [amount, setAmount] = useState(0);
+    console.log(transactions)
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        let newTransaction = {
+            id: transactions.length + 1,
+            text: text,
+            amount: +amount
+        }
+        addTransaction(newTransaction)
+    }
 
     return (
         <>
@@ -19,7 +32,7 @@ export default function AddTransaction() {
                     </label>
                     <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Enter amount..."/>
                 </div>
-                <button className="btn">Add transaction</button>
+                <button className="btn" onClick={handleSubmit}>Add transaction</button>
             </form>
         </>
     )
